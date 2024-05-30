@@ -38,11 +38,11 @@ class SugarDataRepository private constructor(
         }
     }
 
-    suspend fun addCrime(sugarData: SugarData) = withContext(Dispatchers.IO) {
+    suspend fun addData(sugarData: SugarData) = withContext(Dispatchers.IO) {
         database.sugarDataDao().addData(sugarData)
     }
 
-    suspend fun deleteCrime(sugarData: SugarData) = withContext(Dispatchers.IO) {
+    suspend fun deleteData(sugarData: SugarData) = withContext(Dispatchers.IO) {
         database.sugarDataDao().deleteData(sugarData)
     }
 

@@ -4,4 +4,9 @@
     <string name="new_note">New note</string>
     <string name="add">Add</string>
     <string name="no_data_available">No data available</string>
+    <string name="pick_data">Pick data</string>
+    <string name="pick_time">Pick time</string>
+    <string name="additional_information">Additional Information</string>
+    <string name="sugar_level">Sugar level</string>
+    <string name="apply">Apply</string>
 </resources>
