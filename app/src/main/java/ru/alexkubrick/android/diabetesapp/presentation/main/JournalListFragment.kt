@@ -1,25 +1,24 @@
-package ru.alexkubrick.android.diabetesapp
+package ru.alexkubrick.android.diabetesapp.presentation.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.launch
-import ru.alexkubrick.android.diabetesapp.adapter.JournalListAdapter
-import ru.alexkubrick.android.diabetesapp.adapter.SugarData
+import ru.alexkubrick.android.diabetesapp.presentation.main.adapter.JournalListAdapter
+import ru.alexkubrick.android.diabetesapp.presentation.main.adapter.SugarData
 import ru.alexkubrick.android.diabetesapp.databinding.FragmentJournalListBinding
 import java.util.Date
 import java.util.UUID
 
 class JournalListFragment: Fragment() {
-    private val journalListViewModel: JournalListViewModel by viewModels()
+    private val viewModel: JournalListViewModel by activityViewModels()
     private var _binding: FragmentJournalListBinding? = null
 
     private val binding
@@ -43,12 +42,10 @@ class JournalListFragment: Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                journalListViewModel.dataList.collect { dataList ->
+                viewModel.dataList.collect { dataList ->
                     binding.journalRecyclerView.adapter =
                         JournalListAdapter(dataList) { dataId ->
-                            findNavController().navigate(
-                                JournalListFragmentDirections.showDataDetailFragment(dataId)
-                            )
+                            viewModel.state.postValue(State.Edit(dataId))
                         }
 
                     if (dataList.isEmpty()) {
@@ -79,11 +76,9 @@ class JournalListFragment: Fragment() {
             info = ""
         )
         viewLifecycleOwner.lifecycleScope.launch {
-            journalListViewModel.addData(newData)
+            viewModel.addData(newData)
         }
-        findNavController().navigate(
-            JournalListFragmentDirections.showDataDetailFragment(newData.id)
-        )
+        viewModel.state.postValue(State.Edit(newData.id))
     }
 
     override fun onDestroyView() {

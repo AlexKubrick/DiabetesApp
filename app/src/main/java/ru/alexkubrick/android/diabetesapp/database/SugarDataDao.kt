@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
-import ru.alexkubrick.android.diabetesapp.adapter.SugarData
+import ru.alexkubrick.android.diabetesapp.presentation.main.adapter.SugarData
 import java.util.UUID
 
 @Dao

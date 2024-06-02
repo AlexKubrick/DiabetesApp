@@ -1,4 +1,4 @@
-package ru.alexkubrick.android.diabetesapp
+package ru.alexkubrick.android.diabetesapp.presentation.dateDetail
 
 import android.app.Dialog
 import android.app.TimePickerDialog
@@ -8,16 +8,14 @@ import android.widget.TimePicker
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
-import androidx.navigation.fragment.navArgs
 import java.util.Calendar
 import java.util.GregorianCalendar
 
 class TimePickerFragment : DialogFragment() {
-    private val args: TimePickerFragmentArgs by navArgs()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val calendar = Calendar.getInstance()
-        calendar.time = args.dataTime
+//        calendar.time = args.dataTime
         val initialHour = calendar.get(Calendar.HOUR_OF_DAY)
         val initialMinute = calendar.get(Calendar.MINUTE)
 

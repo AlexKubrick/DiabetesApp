@@ -1,37 +1,33 @@
-package ru.alexkubrick.android.diabetesapp
+package ru.alexkubrick.android.diabetesapp.presentation.dateDetail
 
-import android.content.Intent
-import android.content.pm.PackageManager
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import kotlinx.coroutines.launch
-import ru.alexkubrick.android.diabetesapp.adapter.SugarData
+import ru.alexkubrick.android.diabetesapp.presentation.main.adapter.SugarData
 import ru.alexkubrick.android.diabetesapp.databinding.FragmentDataDetailBinding
+import java.lang.Exception
 import java.util.Date
+import java.util.UUID
 
 class DataDetailFragment : Fragment() {
     private var _binding: FragmentDataDetailBinding? = null
+    private lateinit var dataId: UUID
     private val binding
         get() = checkNotNull(_binding) {
             "Cannot access binding because it is null. Is the view visible?"
         }
 
-    private val args: DataDetailFragmentArgs by navArgs()
-
-    private val dataDetailViewModel:  DataDetailViewModel by viewModels {
-        DataDetailViewModelFactory(args.dataId)
+    private val dataDetailViewModel: DataDetailViewModel by viewModels {
+        DataDetailViewModelFactory(dataId)
     }
 
     override fun onCreateView(
@@ -40,12 +36,16 @@ class DataDetailFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentDataDetailBinding.inflate(layoutInflater, container, false)
+        arguments?.run {
+            dataId = getSerializable(ARG_DATA_ID) as UUID
+        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         updateAndSaveData()
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 dataDetailViewModel.sugarData.collect { sugarData ->
@@ -77,52 +77,59 @@ class DataDetailFragment : Fragment() {
 
     private fun updateUi(sugarData: SugarData) {
         binding.apply {
-            // костыль
-            if (editSugarLevelText.text.isEmpty()) {
-                editSugarLevelText.setText("0")
-            }
-            if (editSugarLevelText.text.toString().toLong() != sugarData.sugarLevel) {
-                editSugarLevelText.setText(sugarData.sugarLevel.toString())
-            }
-            if(editAdInfoText.text.toString() != sugarData.info) {
-                editAdInfoText.setText(sugarData.info)
-            }
+            editSugarLevelText.setText(sugarData.sugarLevel.toString())
+            editAdInfoText.setText(sugarData.info)
 
             buttonPickData.setOnClickListener {
-                findNavController().navigate(
-                    DataDetailFragmentDirections.selectDate(sugarData.date)
-                )
+                activity?.let { activity ->
+                    DatePickerDialog(activity).show()
+                }
             }
             buttonPickTime.setOnClickListener {
-                findNavController().navigate(
-                    DataDetailFragmentDirections.selectTime(sugarData.date)
-                )
+//                findNavController().navigate(
+//                    DataDetailFragmentDirections.selectTime(sugarData.date)
+//                )
             }
 
             binding.buttonDelete.setOnClickListener {
                 viewLifecycleOwner.lifecycleScope.launch {
-                    dataDetailViewModel.deleteDataById(args.dataId)
+                    dataDetailViewModel.deleteDataById(dataId)
                 }
-                activity?.onBackPressed()
+                activity?.onBackPressedDispatcher?.onBackPressed()
             }
         }
     }
 
     private fun updateAndSaveData() {
-        binding.editSugarLevelText.doOnTextChanged { text, _, _, _ ->
-            dataDetailViewModel.updateData { oldData ->
-                oldData.copy(sugarLevel = text.toString().toLong())
-            }
-        }
-
-        binding.editAdInfoText.doOnTextChanged { text, _, _, _ ->
-            dataDetailViewModel.updateData { oldData ->
-                oldData.copy(info = text.toString())
-            }
-        }
-
         binding.buttonApply.setOnClickListener {
+            dataDetailViewModel.updateData { oldData ->
+                var sugarLevel: Long = 0
+                val description = binding.editAdInfoText.text.toString()
+                try {
+                    sugarLevel = binding.editSugarLevelText.text.toString().toLong()
+                } catch (e: Exception) {
+
+                }
+                oldData.copy(
+                    info = description,
+                    sugarLevel = sugarLevel
+                )
+            }
             dataDetailViewModel.updateDataInRepository()
+            activity?.onBackPressedDispatcher?.onBackPressed()
+        }
+    }
+
+    companion object {
+        private const val ARG_DATA_ID = "dataId"
+
+        fun getInstance(dataId: UUID): DataDetailFragment {
+            val fragment = DataDetailFragment()
+            val arg = Bundle().apply {
+                putSerializable(ARG_DATA_ID, dataId)
+            }
+            fragment.arguments = arg
+            return fragment
         }
     }
 }

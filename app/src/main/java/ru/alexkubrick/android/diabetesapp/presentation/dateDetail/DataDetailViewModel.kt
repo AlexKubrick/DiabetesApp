@@ -1,4 +1,4 @@
-package ru.alexkubrick.android.diabetesapp
+package ru.alexkubrick.android.diabetesapp.presentation.dateDetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -10,7 +10,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.alexkubrick.android.diabetesapp.adapter.SugarData
+import ru.alexkubrick.android.diabetesapp.SugarDataRepository
+import ru.alexkubrick.android.diabetesapp.presentation.main.adapter.SugarData
 import java.util.UUID
 
 class DataDetailViewModel(dataId: UUID): ViewModel() {
