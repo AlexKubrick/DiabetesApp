@@ -9,4 +9,6 @@
     <string name="additional_information">Additional Information</string>
     <string name="sugar_level">Sugar level</string>
     <string name="apply">Apply</string>
+    <string name="open_menu">Open menu</string>
+    <string name="delete">Delete</string>
 </resources>

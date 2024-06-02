@@ -42,10 +42,6 @@ class SugarDataRepository private constructor(
         database.sugarDataDao().addData(sugarData)
     }
 
-    suspend fun deleteData(sugarData: SugarData) = withContext(Dispatchers.IO) {
-        database.sugarDataDao().deleteData(sugarData)
-    }
-
     suspend fun deleteDataById(id: UUID) = withContext(Dispatchers.IO) {
         database.sugarDataDao().deleteDataById(id)
     }

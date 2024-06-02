@@ -37,10 +37,6 @@ class DataDetailViewModel(dataId: UUID): ViewModel() {
         sugarData.value?.let { sugarDataRepository.updateSugarData(it) }
     }
 
-    suspend fun deleteData(sugarData: SugarData) = withContext(Dispatchers.IO) {
-        sugarDataRepository.deleteData(sugarData)
-    }
-
     suspend fun deleteDataById(id: UUID) = withContext(Dispatchers.IO) {
         sugarDataRepository.deleteDataById(id)
     }

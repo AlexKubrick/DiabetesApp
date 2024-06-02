@@ -23,9 +23,6 @@ interface SugarDataDao {
     @Insert
     fun addData(sugarData: SugarData)
 
-    @Delete
-    fun deleteData (sugarData: SugarData)
-
     @Query("DELETE FROM sugardata WHERE id = :id")
     fun deleteDataById (id: UUID)
 }

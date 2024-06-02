@@ -98,6 +98,13 @@ class DataDetailFragment : Fragment() {
                     DataDetailFragmentDirections.selectTime(sugarData.date)
                 )
             }
+
+            binding.buttonDelete.setOnClickListener {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    dataDetailViewModel.deleteDataById(args.dataId)
+                }
+                activity?.onBackPressed()
+            }
         }
     }
 
