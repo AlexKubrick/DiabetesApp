@@ -11,4 +11,6 @@
     <string name="apply">Apply</string>
     <string name="open_menu">Open menu</string>
     <string name="delete">Delete</string>
+    <string name="settings">Settings</string>
+    <string name="diabetes">Diabetes</string>
 </resources>

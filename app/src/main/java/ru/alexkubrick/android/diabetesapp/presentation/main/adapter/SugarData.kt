@@ -8,7 +8,7 @@ import java.util.UUID
 @Entity
 data class SugarData(
     @PrimaryKey val id: UUID,
-    val sugarLevel: Long,
+    val sugarLevel: Float,
     val date: Date,
-    val info: String
+    val desc: String
 )

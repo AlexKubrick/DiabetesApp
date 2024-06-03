@@ -50,16 +50,16 @@ class JournalListFragment: Fragment() {
 
                     if (dataList.isEmpty()) {
                         binding.journalRecyclerView.visibility = View.GONE
-                        binding.buttonAddData.visibility = View.GONE
+                        binding.bAddData.visibility = View.GONE
                         binding.layoutNoData.visibility = View.VISIBLE
-                        binding.buttonAddDataEmptyL.setOnClickListener {
+                        binding.bAddDataEmptyL.setOnClickListener {
                             showNewSugarData()
                         }
                     } else {
                         binding.journalRecyclerView.visibility = View.VISIBLE
                         binding.layoutNoData.visibility = View.GONE
-                        binding.buttonAddData.visibility = View.VISIBLE
-                        binding.buttonAddData.setOnClickListener {
+                        binding.bAddData.visibility = View.VISIBLE
+                        binding.bAddData.setOnClickListener {
                             showNewSugarData()
                     }
                 }
@@ -71,9 +71,9 @@ class JournalListFragment: Fragment() {
     private fun showNewSugarData() {
         val newData = SugarData(
             id = UUID.randomUUID(),
-            sugarLevel = 0,
+            sugarLevel = 0.0F,
             date = Date(),
-            info = ""
+            desc = ""
         )
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.addData(newData)

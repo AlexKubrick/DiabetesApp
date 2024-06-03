@@ -54,17 +54,12 @@ class DataDetailFragment : Fragment() {
             }
         }
 
-        setFragmentResultListener(
-            DatePickerFragment.REQUEST_KEY_DATE
-        ) { _, bundle ->
-            val newDate =
-                bundle.getSerializable(DatePickerFragment.BUNDLE_KEY_DATE) as Date
+        setFragmentResultListener(DatePickerFragment.REQUEST_KEY_DATE) { _, bundle ->
+            val newDate = bundle.getSerializable(DatePickerFragment.BUNDLE_KEY_DATE) as Date
             dataDetailViewModel.updateData { it.copy(date = newDate) }
         }
 
-        setFragmentResultListener(
-            TimePickerFragment.REQUEST_KEY_TIME
-        ) { _, bundle ->
+        setFragmentResultListener(TimePickerFragment.REQUEST_KEY_TIME) { _, bundle ->
             val newDate = bundle.getSerializable(TimePickerFragment.BUNDLE_KEY_TIME) as Date
             dataDetailViewModel.updateData { it.copy(date = newDate) }
         }
@@ -77,21 +72,20 @@ class DataDetailFragment : Fragment() {
 
     private fun updateUi(sugarData: SugarData) {
         binding.apply {
-            editSugarLevelText.setText(sugarData.sugarLevel.toString())
-            editAdInfoText.setText(sugarData.info)
+            edSugarLevel.setText(sugarData.sugarLevel.toString())
+            edDescription.setText(sugarData.desc)
 
-            buttonPickData.setOnClickListener {
-                activity?.let { activity ->
-                    DatePickerDialog(activity).show()
-                }
-            }
-            buttonPickTime.setOnClickListener {
-//                findNavController().navigate(
-//                    DataDetailFragmentDirections.selectTime(sugarData.date)
-//                )
+            bPickData.setOnClickListener {
+                val datePickerFragment = DatePickerFragment()
+                datePickerFragment.show(parentFragmentManager, "DatePicker")
             }
 
-            binding.buttonDelete.setOnClickListener {
+            bPickTime.setOnClickListener {
+                val timePickerFragment = TimePickerFragment()
+                timePickerFragment.show(parentFragmentManager, "TimePicker")
+            }
+
+            binding.bDelete.setOnClickListener {
                 viewLifecycleOwner.lifecycleScope.launch {
                     dataDetailViewModel.deleteDataById(dataId)
                 }
@@ -101,17 +95,17 @@ class DataDetailFragment : Fragment() {
     }
 
     private fun updateAndSaveData() {
-        binding.buttonApply.setOnClickListener {
+        binding.bApply.setOnClickListener {
             dataDetailViewModel.updateData { oldData ->
-                var sugarLevel: Long = 0
-                val description = binding.editAdInfoText.text.toString()
+                var sugarLevel: Float = 0.0F
+                val description = binding.edDescription.text.toString()
                 try {
-                    sugarLevel = binding.editSugarLevelText.text.toString().toLong()
+                    sugarLevel = binding.edSugarLevel.text.toString().toFloat()
                 } catch (e: Exception) {
 
                 }
                 oldData.copy(
-                    info = description,
+                    desc = description,
                     sugarLevel = sugarLevel
                 )
             }

@@ -26,9 +26,9 @@ class JournalListAdapter(
     class JournalHolder(private val binding: ListItemJournalBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(sugarData: SugarData, onDataClicked: (crimeId: UUID) -> Unit) {
-            binding.diabetesSugarLevel.text = sugarData.sugarLevel.toString()
-            binding.diabetesDate.text = sugarData.date.toString()
-            binding.diabetesInfo.text = sugarData.info
+            binding.tSugarLevel.text = sugarData.sugarLevel.toString()
+            binding.tDate.text = sugarData.date.toString()
+            binding.tDescription.text = sugarData.desc
 
             binding.root.setOnClickListener {
                 onDataClicked(sugarData.id)

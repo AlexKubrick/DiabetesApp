@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/text_sugar_level_header"
+        android:id="@+id/headerSugarLevel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
@@ -14,13 +14,13 @@
         android:text="@string/sugar_level"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/edit_sugar_level_text"
+        app:layout_constraintBottom_toTopOf="@+id/edSugarLevel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/edit_sugar_level_text"
+        android:id="@+id/edSugarLevel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -28,14 +28,14 @@
         android:layout_marginEnd="57dp"
         android:ems="10"
         android:hint="Input your number"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_sugar_level_header" />
+        app:layout_constraintTop_toBottomOf="@+id/headerSugarLevel" />
 
     <Button
-        android:id="@+id/button_pick_data"
+        android:id="@+id/bPickData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -44,13 +44,13 @@
         android:layout_marginBottom="24dp"
         android:text="@string/pick_data"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/button_pick_time"
+        app:layout_constraintBottom_toTopOf="@+id/bPickTime"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_sugar_level_text" />
+        app:layout_constraintTop_toBottomOf="@+id/edSugarLevel" />
 
     <Button
-        android:id="@+id/button_pick_time"
+        android:id="@+id/bPickTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -58,13 +58,13 @@
         android:layout_marginBottom="24dp"
         android:text="@string/pick_time"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/edit_ad_info_text"
+        app:layout_constraintBottom_toTopOf="@+id/edDescription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_pick_data" />
+        app:layout_constraintTop_toBottomOf="@+id/bPickData" />
 
     <EditText
-        android:id="@+id/edit_ad_info_text"
+        android:id="@+id/edDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -74,13 +74,13 @@
         android:hint="@string/additional_information"
         android:inputType="text"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/button_apply"
+        app:layout_constraintBottom_toTopOf="@+id/bApply"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_pick_time" />
+        app:layout_constraintTop_toBottomOf="@+id/bPickTime" />
 
     <Button
-        android:id="@+id/button_apply"
+        android:id="@+id/bApply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -89,13 +89,13 @@
         android:backgroundTint="@color/green"
         android:text="@string/apply"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/button_delete"
+        app:layout_constraintBottom_toTopOf="@+id/bDelete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_ad_info_text" />
+        app:layout_constraintTop_toBottomOf="@+id/edDescription" />
 
     <Button
-        android:id="@+id/button_delete"
+        android:id="@+id/bDelete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -108,7 +108,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_apply" />
-
-
+        app:layout_constraintTop_toBottomOf="@+id/bApply" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,18 +7,18 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/diabetes_date"
+        android:id="@+id/tDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toTopOf="@id/diabetes_info"
+        app:layout_constraintBottom_toTopOf="@id/tDescription"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="01.06.2024 16:35" />
 
     <TextView
-        android:id="@+id/diabetes_info"
+        android:id="@+id/tDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -26,11 +26,11 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/diabetes_date"
+        app:layout_constraintTop_toBottomOf="@+id/tDate"
         tools:text="Before breakfast" />
 
     <TextView
-        android:id="@+id/diabetes_sugar_level"
+        android:id="@+id/tSugarLevel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -43,6 +43,7 @@
         tools:text="65" />
 
     <TextView
+        android:id="@+id/mgMl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="346dp"
@@ -53,7 +54,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/diabetes_sugar_level" />
+        app:layout_constraintTop_toBottomOf="@+id/tSugarLevel" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
