@@ -1,10 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.DiabetesApp" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Base.Theme.DiabetesApp" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/purple_500</item>
+        <item name="textInputStyle">@style/Widget.MyApp.TextInputLayout</item>
     </style>
 
+    <style name="Widget.MyApp.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <!-- Customize the OutlinedBox variant -->
+    <item name="boxStrokeWidth">1dp</item>
+    <item name="boxStrokeWidthFocused">2dp</item>
+    <item name="boxStrokeColor">@color/purple_500</item>
+    </style>
     <style name="Theme.DiabetesApp" parent="Base.Theme.DiabetesApp" />
     <color name="purple_500">#600FE1</color>
 </resources>

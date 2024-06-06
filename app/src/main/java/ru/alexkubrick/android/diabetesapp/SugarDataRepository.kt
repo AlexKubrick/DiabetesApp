@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.alexkubrick.android.diabetesapp.presentation.main.adapter.SugarData
-import ru.alexkubrick.android.diabetesapp.database.SugarDataDao
 import ru.alexkubrick.android.diabetesapp.database.SugarDatabase
 import java.util.UUID
 

@@ -11,7 +11,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import ru.alexkubrick.android.diabetesapp.presentation.dateDetail.DataDetailFragment
 import ru.alexkubrick.android.diabetesapp.R
-import ru.alexkubrick.android.diabetesapp.SettingsFragment
+import ru.alexkubrick.android.diabetesapp.presentation.drawer.SettingsFragment
 import ru.alexkubrick.android.diabetesapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {

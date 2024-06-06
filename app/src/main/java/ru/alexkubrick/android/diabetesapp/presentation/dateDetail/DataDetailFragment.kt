@@ -1,10 +1,14 @@
 package ru.alexkubrick.android.diabetesapp.presentation.dateDetail
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
@@ -12,10 +16,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
+import ru.alexkubrick.android.diabetesapp.R
 import ru.alexkubrick.android.diabetesapp.presentation.main.adapter.SugarData
 import ru.alexkubrick.android.diabetesapp.databinding.FragmentDataDetailBinding
 import java.lang.Exception
 import java.util.Date
+import java.util.Locale
 import java.util.UUID
 
 class DataDetailFragment : Fragment() {
@@ -63,6 +69,23 @@ class DataDetailFragment : Fragment() {
             val newDate = bundle.getSerializable(TimePickerFragment.BUNDLE_KEY_TIME) as Date
             dataDetailViewModel.updateData { it.copy(date = newDate) }
         }
+
+        binding.edSugarLevel.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+            override fun afterTextChanged(s: Editable) {
+                val str = binding.edSugarLevel.text.toString()
+                if (str.isEmpty()) return
+                val str2 = perfectDecimal(str)
+
+                if (str2 != str) {
+                    binding.edSugarLevel.setText(str2)
+                    binding.edSugarLevel.setSelection(str2.length)
+                }
+            }
+        })
     }
 
     override fun onDestroyView() {
@@ -75,14 +98,11 @@ class DataDetailFragment : Fragment() {
             edSugarLevel.setText(sugarData.sugarLevel.toString())
             edDescription.setText(sugarData.desc)
 
-            bPickData.setOnClickListener {
-                val datePickerFragment = DatePickerFragment()
-                datePickerFragment.show(parentFragmentManager, "DatePicker")
-            }
+            edPickDate.transformIntoDatePicker(requireContext(), "yyyy-MM-dd")
 
-            bPickTime.setOnClickListener {
+           edPickTime.setOnClickListener {
                 val timePickerFragment = TimePickerFragment()
-                timePickerFragment.show(parentFragmentManager, "TimePicker")
+                timePickerFragment.show(parentFragmentManager, null)
             }
 
             binding.bDelete.setOnClickListener {
@@ -97,7 +117,7 @@ class DataDetailFragment : Fragment() {
     private fun updateAndSaveData() {
         binding.bApply.setOnClickListener {
             dataDetailViewModel.updateData { oldData ->
-                var sugarLevel: Float = 0.0F
+                var sugarLevel = 0.0F
                 val description = binding.edDescription.text.toString()
                 try {
                     sugarLevel = binding.edSugarLevel.text.toString().toFloat()
@@ -114,8 +134,46 @@ class DataDetailFragment : Fragment() {
         }
     }
 
+    private fun perfectDecimal(str: String): String {
+        var string = str
+        if (string[0] == '.') string = "0$str"
+        val max = str.length
+
+        var rFinal = ""
+        var after = false
+        var up = 0
+        var decimal = 0
+        for (i in 0 until max) {
+            val t = string[i]
+            if (t != '.' && !after) {
+                up++
+                if (up > MAX_BEFORE_POINT) return rFinal
+            } else if (t == '.') {
+                after = true
+            } else {
+                decimal++
+                if (decimal > MAX_DECIMAL) return rFinal
+            }
+            rFinal += t
+        }
+        return rFinal
+    }
+
+    private fun EditText.transformIntoDatePicker(context: Context, format: String) {
+        isFocusableInTouchMode = false
+        isClickable = true
+        isFocusable = false
+
+        setOnClickListener {
+            val datePickerFragment = DatePickerFragment()
+            datePickerFragment.show(parentFragmentManager, null)
+        }
+    }
+
     companion object {
         private const val ARG_DATA_ID = "dataId"
+        private const val MAX_BEFORE_POINT = 3
+        private const val MAX_DECIMAL = 2
 
         fun getInstance(dataId: UUID): DataDetailFragment {
             val fragment = DataDetailFragment()

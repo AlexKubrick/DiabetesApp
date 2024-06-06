@@ -1,4 +1,4 @@
-package ru.alexkubrick.android.diabetesapp
+package ru.alexkubrick.android.diabetesapp.presentation.drawer
 
 import android.os.Bundle
 import android.view.LayoutInflater

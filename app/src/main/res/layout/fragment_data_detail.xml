@@ -1,75 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/headerSugarLevel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
-        android:layout_marginEnd="150dp"
-        android:layout_marginBottom="1dp"
-        android:text="@string/sugar_level"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/edSugarLevel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/edSugarLevel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="57dp"
-        android:ems="10"
-        android:hint="Input your number"
-        android:inputType="numberDecimal"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/headerSugarLevel" />
-
-    <Button
-        android:id="@+id/bPickData"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutEdSugarLevel"
+        style="@style/Widget.MyApp.TextInputLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="57dp"
-        android:layout_marginBottom="24dp"
-        android:text="@string/pick_data"
+        android:ems="10"
+        android:hint="@string/input_your_number"
+        android:inputType="numberDecimal"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/bPickTime"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edSugarLevel" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/bPickTime"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edSugarLevel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <TextView
+        android:id="@+id/tvDateAndTime"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/date_and_time"
+        style="@style/TextAppearance.MaterialComponents.Headline5"
+        app:layout_constraintTop_toBottomOf="@+id/layoutEdSugarLevel"
+        app:layout_constraintBottom_toTopOf="@+id/layoutEdPickDate"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutEdPickDate"
+        style="@style/ThemeOverlay.Material3.TextInputEditText.FilledBox.Dense"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginBottom="53dp"
+        android:hint="@string/pick_date"
+        app:layout_constraintBottom_toTopOf="@+id/layoutEdDescription"
+        app:layout_constraintEnd_toStartOf="@+id/layoutEdPickTime"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edPickDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutEdPickTime"
+        style="@style/ThemeOverlay.Material3.TextInputEditText.FilledBox.Dense"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="125dp"
+        android:layout_marginBottom="53dp"
+        android:hint="@string/pick_time"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/layoutEdDescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/layoutEdPickDate"
+        app:layout_constraintTop_toBottomOf="@+id/layoutEdSugarLevel">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edPickTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutEdDescription"
+        style="@style/Widget.MyApp.TextInputLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="57dp"
-        android:layout_marginBottom="24dp"
-        android:text="@string/pick_time"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/edDescription"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bPickData" />
-
-    <EditText
-        android:id="@+id/edDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="57dp"
-        android:layout_marginBottom="24dp"
         android:ems="10"
         android:hint="@string/additional_information"
         android:inputType="text"
@@ -77,36 +97,41 @@
         app:layout_constraintBottom_toTopOf="@+id/bApply"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bPickTime" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutEdPickDate">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/bApply"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="54dp"
-        android:layout_marginEnd="57dp"
+        android:layout_marginStart="57dp"
+        android:layout_marginEnd="253dp"
+        android:layout_marginBottom="300dp"
         android:backgroundTint="@color/green"
         android:text="@string/apply"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/bDelete"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edDescription" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/bDelete"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="57dp"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="200dp"
         android:backgroundTint="@color/red"
         android:text="@string/delete"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bApply" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutEdDescription" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
