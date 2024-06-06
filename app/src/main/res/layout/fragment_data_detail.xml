@@ -5,133 +5,145 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/layoutEdSugarLevel"
-        style="@style/Widget.MyApp.TextInputLayout"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/dataLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="57dp"
-        android:ems="10"
-        android:hint="@string/input_your_number"
-        android:inputType="numberDecimal"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="80dp"
+        android:padding="24dp"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edSugarLevel"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sugarLevelLayout"
+            style="@style/ThemeOverlay.Material3.TextInputEditText.FilledBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="true"
-            android:focusableInTouchMode="true" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:ems="10"
+            android:hint="@string/input_your_number"
+            android:inputType="numberDecimal"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sugarLevel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true" />
 
-    <TextView
-        android:id="@+id/tvDateAndTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/date_and_time"
-        style="@style/TextAppearance.MaterialComponents.Headline5"
-        app:layout_constraintTop_toBottomOf="@+id/layoutEdSugarLevel"
-        app:layout_constraintBottom_toTopOf="@+id/layoutEdPickDate"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/layoutEdPickDate"
-        style="@style/ThemeOverlay.Material3.TextInputEditText.FilledBox.Dense"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="70dp"
-        android:layout_marginBottom="53dp"
-        android:hint="@string/pick_date"
-        app:layout_constraintBottom_toTopOf="@+id/layoutEdDescription"
-        app:layout_constraintEnd_toStartOf="@+id/layoutEdPickTime"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edPickDate"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/timeTitle"
+            style="@style/TextAppearance.MaterialComponents.Headline5"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:focusable="true"
-            android:focusableInTouchMode="true" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginTop="12dp"
+            android:text="@string/date_and_time"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/datePickerLayout"
+            app:layout_constraintEnd_toEndOf="@id/timePickerLayout"
+            app:layout_constraintStart_toStartOf="@id/datePickerLayout"
+            app:layout_constraintTop_toBottomOf="@id/sugarLevelLayout" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/layoutEdPickTime"
-        style="@style/ThemeOverlay.Material3.TextInputEditText.FilledBox.Dense"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="125dp"
-        android:layout_marginBottom="53dp"
-        android:hint="@string/pick_time"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/layoutEdDescription"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/layoutEdPickDate"
-        app:layout_constraintTop_toBottomOf="@+id/layoutEdSugarLevel">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edPickTime"
-            android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/datePickerLayout"
+            style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:focusable="true"
-            android:focusableInTouchMode="true" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginTop="4dp"
+            android:hint="@string/pick_date"
+            app:layout_constraintBottom_toTopOf="@+id/descriptionLayout"
+            app:layout_constraintEnd_toStartOf="@+id/timePickerLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/timeTitle">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/layoutEdDescription"
-        style="@style/Widget.MyApp.TextInputLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="57dp"
-        android:ems="10"
-        android:hint="@string/additional_information"
-        android:inputType="text"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/bApply"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutEdPickDate">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/datePicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/timePickerLayout"
+            style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox"
+            app:endIconDrawable="@drawable/ic_arrow_down"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/pick_time"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/datePickerLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/datePickerLayout"
+            app:layout_constraintTop_toTopOf="@+id/datePickerLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/timePicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/descriptionLayout"
+            style="@style/ThemeOverlay.Material3.TextInputEditText.FilledBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:ems="10"
+            android:hint="@string/additional_information"
+            android:inputType="text"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/datePickerLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/bApply"
+        android:id="@+id/btnApply"
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="57dp"
-        android:layout_marginEnd="253dp"
-        android:layout_marginBottom="300dp"
+        android:layout_marginBottom="80dp"
         android:backgroundTint="@color/green"
+        android:minWidth="120dp"
+        android:minHeight="60dp"
         android:text="@string/apply"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@id/btnDelete"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dataLayout" />
 
     <Button
-        android:id="@+id/bDelete"
+        android:id="@+id/btnDelete"
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="57dp"
-        android:layout_marginBottom="200dp"
         android:backgroundTint="@color/red"
+        android:minWidth="120dp"
+        android:minHeight="60dp"
         android:text="@string/delete"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/btnApply"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutEdDescription" />
+        app:layout_constraintStart_toEndOf="@id/btnApply"
+        app:layout_constraintTop_toTopOf="@id/btnApply" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

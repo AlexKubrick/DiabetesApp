@@ -70,19 +70,19 @@ class DataDetailFragment : Fragment() {
             dataDetailViewModel.updateData { it.copy(date = newDate) }
         }
 
-        binding.edSugarLevel.addTextChangedListener(object : TextWatcher {
+        binding.sugarLevel.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
             override fun afterTextChanged(s: Editable) {
-                val str = binding.edSugarLevel.text.toString()
+                val str = binding.sugarLevel.text.toString()
                 if (str.isEmpty()) return
                 val str2 = perfectDecimal(str)
 
                 if (str2 != str) {
-                    binding.edSugarLevel.setText(str2)
-                    binding.edSugarLevel.setSelection(str2.length)
+                    binding.sugarLevel.setText(str2)
+                    binding.sugarLevel.setSelection(str2.length)
                 }
             }
         })
@@ -95,17 +95,14 @@ class DataDetailFragment : Fragment() {
 
     private fun updateUi(sugarData: SugarData) {
         binding.apply {
-            edSugarLevel.setText(sugarData.sugarLevel.toString())
-            edDescription.setText(sugarData.desc)
+            sugarLevel.setText(sugarData.sugarLevel.toString())
+            description.setText(sugarData.desc)
 
-            edPickDate.transformIntoDatePicker(requireContext(), "yyyy-MM-dd")
+            datePicker.transformIntoDatePicker(requireContext(), "yyyy-MM-dd")
 
-           edPickTime.setOnClickListener {
-                val timePickerFragment = TimePickerFragment()
-                timePickerFragment.show(parentFragmentManager, null)
-            }
+           timePicker.transformIntoTimePicker(requireContext(), "00:00")
 
-            binding.bDelete.setOnClickListener {
+            binding.btnDelete.setOnClickListener {
                 viewLifecycleOwner.lifecycleScope.launch {
                     dataDetailViewModel.deleteDataById(dataId)
                 }
@@ -115,12 +112,12 @@ class DataDetailFragment : Fragment() {
     }
 
     private fun updateAndSaveData() {
-        binding.bApply.setOnClickListener {
+        binding.btnApply.setOnClickListener {
             dataDetailViewModel.updateData { oldData ->
                 var sugarLevel = 0.0F
-                val description = binding.edDescription.text.toString()
+                val description = binding.description.text.toString()
                 try {
-                    sugarLevel = binding.edSugarLevel.text.toString().toFloat()
+                    sugarLevel = binding.sugarLevel.text.toString().toFloat()
                 } catch (e: Exception) {
 
                 }
@@ -167,6 +164,17 @@ class DataDetailFragment : Fragment() {
         setOnClickListener {
             val datePickerFragment = DatePickerFragment()
             datePickerFragment.show(parentFragmentManager, null)
+        }
+    }
+
+    private fun EditText.transformIntoTimePicker(context: Context, format: String) {
+        isFocusableInTouchMode = false
+        isClickable = true
+        isFocusable = false
+
+        setOnClickListener {
+            val timePickerFragment = TimePickerFragment()
+            timePickerFragment.show(parentFragmentManager, null)
         }
     }
 
