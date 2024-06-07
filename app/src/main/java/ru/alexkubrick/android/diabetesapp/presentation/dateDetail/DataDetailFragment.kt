@@ -20,6 +20,8 @@ import ru.alexkubrick.android.diabetesapp.R
 import ru.alexkubrick.android.diabetesapp.presentation.main.adapter.SugarData
 import ru.alexkubrick.android.diabetesapp.databinding.FragmentDataDetailBinding
 import java.lang.Exception
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.UUID
@@ -93,14 +95,19 @@ class DataDetailFragment : Fragment() {
         _binding = null
     }
 
+    val defaultLocale = Locale.getDefault()
+    val formattedDate = SimpleDateFormat("dd MMMM yyyy", defaultLocale)
+    val formattedTime = SimpleDateFormat("HH:mm", defaultLocale)
     private fun updateUi(sugarData: SugarData) {
         binding.apply {
             sugarLevel.setText(sugarData.sugarLevel.toString())
             description.setText(sugarData.desc)
 
-            datePicker.transformIntoDatePicker(requireContext(), "yyyy-MM-dd")
+            datePicker.transformIntoDatePicker(requireContext())
+            datePicker.setText(formattedDate.format(sugarData.date).toString())
 
-           timePicker.transformIntoTimePicker(requireContext(), "00:00")
+            timePicker.transformIntoTimePicker(requireContext())
+            timePicker.setText(formattedTime.format(sugarData.date.time))
 
             binding.btnDelete.setOnClickListener {
                 viewLifecycleOwner.lifecycleScope.launch {
@@ -156,7 +163,7 @@ class DataDetailFragment : Fragment() {
         return rFinal
     }
 
-    private fun EditText.transformIntoDatePicker(context: Context, format: String) {
+    private fun EditText.transformIntoDatePicker(context: Context) {
         isFocusableInTouchMode = false
         isClickable = true
         isFocusable = false
@@ -164,10 +171,11 @@ class DataDetailFragment : Fragment() {
         setOnClickListener {
             val datePickerFragment = DatePickerFragment()
             datePickerFragment.show(parentFragmentManager, null)
+
         }
     }
 
-    private fun EditText.transformIntoTimePicker(context: Context, format: String) {
+    private fun EditText.transformIntoTimePicker(context: Context) {
         isFocusableInTouchMode = false
         isClickable = true
         isFocusable = false

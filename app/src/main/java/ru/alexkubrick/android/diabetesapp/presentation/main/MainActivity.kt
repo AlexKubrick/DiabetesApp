@@ -11,8 +11,8 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import ru.alexkubrick.android.diabetesapp.presentation.dateDetail.DataDetailFragment
 import ru.alexkubrick.android.diabetesapp.R
-import ru.alexkubrick.android.diabetesapp.presentation.drawer.SettingsFragment
 import ru.alexkubrick.android.diabetesapp.databinding.ActivityMainBinding
+import ru.alexkubrick.android.diabetesapp.presentation.drawer.SettingsActivity
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
-            R.id.navSettings -> replaceFragment(SettingsFragment())
+            //R.id.navSettings -> SettingsActivity()
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true
