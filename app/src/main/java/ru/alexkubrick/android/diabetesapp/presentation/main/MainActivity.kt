@@ -1,5 +1,6 @@
 package ru.alexkubrick.android.diabetesapp.presentation.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
@@ -13,6 +14,7 @@ import ru.alexkubrick.android.diabetesapp.presentation.dateDetail.DataDetailFrag
 import ru.alexkubrick.android.diabetesapp.R
 import ru.alexkubrick.android.diabetesapp.databinding.ActivityMainBinding
 import ru.alexkubrick.android.diabetesapp.presentation.drawer.SettingsActivity
+import ru.alexkubrick.android.diabetesapp.presentation.drawer.StatisticsActivity
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -57,7 +59,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
-            //R.id.navSettings -> SettingsActivity()
+            R.id.navSettings -> {
+                val intent = Intent(this, SettingsActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.navStatistics -> {
+                val intent = Intent(this, StatisticsActivity::class.java)
+                startActivity(intent)
+            }
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true

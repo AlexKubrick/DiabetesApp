@@ -22,6 +22,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".presentation.drawer.SettingsActivity"
+            android:label="@string/settings"
+            android:theme="@style/Theme.DiabetesApp">
+        </activity>
+        <activity
+            android:name=".presentation.drawer.StatisticsActivity"
+            android:label="@string/statistics"
+            android:theme="@style/Theme.DiabetesApp">
+        </activity>
     </application>
 
 </manifest>
