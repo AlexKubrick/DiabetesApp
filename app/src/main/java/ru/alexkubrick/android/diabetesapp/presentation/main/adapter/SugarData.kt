@@ -10,5 +10,19 @@ data class SugarData(
     @PrimaryKey val id: UUID,
     val sugarLevel: Float,
     val date: Date,
-    val desc: String
+    val desc: String,
+    val measurementTime: Int
 )
+
+enum class MeasurementTime {
+    BEFORE_BREAKFAST,
+    BREAKFAST,
+    AFTER_BREAKFAST,
+    BEFORE_LUNCH,
+    LUNCH,
+    AFTER_LUNCH,
+    BEFORE_DINNER,
+    DINNER,
+    AFTER_DINNER,
+    OTHER
+}

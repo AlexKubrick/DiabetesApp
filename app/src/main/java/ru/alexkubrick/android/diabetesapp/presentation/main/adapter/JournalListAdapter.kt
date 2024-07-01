@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.alexkubrick.android.diabetesapp.databinding.ListItemJournalBinding
+import java.text.SimpleDateFormat
+import java.util.Locale
 import java.util.UUID
 
 class JournalListAdapter(
@@ -26,7 +28,11 @@ class JournalListAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(sugarData: SugarData, onDataClicked: (crimeId: UUID) -> Unit) {
             binding.tSugarLevel.text = sugarData.sugarLevel.toString()
-            binding.tDate.text = sugarData.date.toString()
+            val defaultLocale = Locale.getDefault()
+            val dateFormatter = SimpleDateFormat("dd MMMM yyyy", defaultLocale)
+            val timeFormatter = SimpleDateFormat("HH:mm", defaultLocale)
+            binding.tDate.text = dateFormatter.format(sugarData.date).toString() + " " + timeFormatter.format(sugarData.date.time).toString()
+            //getString import??
             binding.tDescription.text = sugarData.desc
 
             binding.root.setOnClickListener {

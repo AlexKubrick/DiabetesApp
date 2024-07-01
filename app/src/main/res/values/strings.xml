@@ -17,4 +17,5 @@
     <string name="input_your_number">Input your number</string>
     <string name="date_and_time">Date and Time</string>
     <string name="statistics">Statistics</string>
+    <string name="date_time_format">%1$s %2$s</string>
 </resources>

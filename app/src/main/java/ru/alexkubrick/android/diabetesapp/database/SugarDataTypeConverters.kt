@@ -1,6 +1,7 @@
 package ru.alexkubrick.android.diabetesapp.database
 
 import androidx.room.TypeConverter
+import ru.alexkubrick.android.diabetesapp.presentation.main.adapter.MeasurementTime
 import java.util.Date
 
 class SugarDataTypeConverters {
@@ -13,4 +14,5 @@ class SugarDataTypeConverters {
     fun toDate(millisSinceEpoch: Long): Date {
         return Date(millisSinceEpoch)
     }
+
 }

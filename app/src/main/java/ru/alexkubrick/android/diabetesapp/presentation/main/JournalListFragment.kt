@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import ru.alexkubrick.android.diabetesapp.presentation.main.adapter.JournalListAdapter
 import ru.alexkubrick.android.diabetesapp.presentation.main.adapter.SugarData
 import ru.alexkubrick.android.diabetesapp.databinding.FragmentJournalListBinding
+import ru.alexkubrick.android.diabetesapp.presentation.main.adapter.MeasurementTime
 import java.util.Date
 import java.util.UUID
 
@@ -73,7 +74,8 @@ class JournalListFragment: Fragment() {
             id = UUID.randomUUID(),
             sugarLevel = 0.0F,
             date = Date(),
-            desc = ""
+            desc = "",
+            measurementTime = MeasurementTime.OTHER.ordinal
         )
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.addData(newData)

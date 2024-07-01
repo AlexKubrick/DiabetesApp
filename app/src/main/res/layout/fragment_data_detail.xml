@@ -13,6 +13,20 @@
         android:padding="24dp"
         app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/sugarLevelTitle"
+            style="@style/TextAppearance.MaterialComponents.Headline5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Sugar level"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/sugarLevelLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/sugarLevelLayout"
             android:layout_width="match_parent"
@@ -22,13 +36,50 @@
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/sugarLevelTitle"
+            app:layout_constraintBottom_toTopOf="@id/measureTitle">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/sugarLevel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal"/>
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/measureTitle"
+            style="@style/TextAppearance.MaterialComponents.Headline5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="When measured"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/measuredPickerLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sugarLevelLayout" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/measuredPickerLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Pick measured"
+            app:endIconDrawable="@drawable/ic_arrow_down"
+            app:endIconMode="custom"
+            app:layout_constraintBottom_toTopOf="@id/timeTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/measureTitle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/measuredPicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -44,7 +95,7 @@
             app:layout_constraintBottom_toTopOf="@id/datePickerLayout"
             app:layout_constraintEnd_toEndOf="@id/timePickerLayout"
             app:layout_constraintStart_toStartOf="@id/datePickerLayout"
-            app:layout_constraintTop_toBottomOf="@id/sugarLevelLayout" />
+            app:layout_constraintTop_toBottomOf="@id/measuredPickerLayout" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/datePickerLayout"
@@ -90,6 +141,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/descriptionLayout"
             android:layout_width="0dp"
@@ -102,7 +154,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/datePickerLayout">
+            app:layout_constraintTop_toBottomOf="@id/timePickerLayout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/description"

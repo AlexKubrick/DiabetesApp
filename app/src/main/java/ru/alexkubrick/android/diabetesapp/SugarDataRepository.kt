@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.alexkubrick.android.diabetesapp.presentation.main.adapter.SugarData
 import ru.alexkubrick.android.diabetesapp.database.SugarDatabase
+import ru.alexkubrick.android.diabetesapp.database.migration_2_3
 import java.util.UUID
 
 class SugarDataRepository private constructor(
@@ -22,7 +23,7 @@ class SugarDataRepository private constructor(
         SugarDatabase::class.java,
         DATABASE_NAME
     )
-//       .createFromAsset(DATABASE_NAME)
+        .addMigrations(migration_2_3)
         .build()
 
     fun getDataList(): Flow<List<SugarData>> = database.sugarDataDao().getDataList()
