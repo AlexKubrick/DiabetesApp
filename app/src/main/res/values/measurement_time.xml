@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="measurementTime">
+        <item>Before breakfast</item>
+        <item>Breakfast</item>
+        <item>After breakfast</item>
+        <item>Before lunch</item>
+        <item>Lunch</item>
+        <item>After lunch</item>
+        <item>Before dinner</item>
+        <item>Dinner</item>
+        <item>After dinner</item>
+        <item>Other</item>
+    </string-array>
+</resources>

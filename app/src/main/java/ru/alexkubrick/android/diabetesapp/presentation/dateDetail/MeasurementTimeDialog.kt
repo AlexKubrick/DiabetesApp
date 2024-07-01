@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import ru.alexkubrick.android.diabetesapp.R
 import ru.alexkubrick.android.diabetesapp.presentation.main.adapter.MeasurementTime
 
 class MeasurementTimeDialogFragment : DialogFragment() {
@@ -14,16 +15,13 @@ class MeasurementTimeDialogFragment : DialogFragment() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Select Measurement Time")
 
-        // Get the list of measurement time options
-        val measurementTimeOptions = MeasurementTime.values()
+        // Get the list of measurement time options from resources
+        val measurementTimeOptions = resources.getStringArray(R.array.measurementTime)
 
         // Create a single-choice item list
-        val selectedIndex = measurementTimeOptions.indexOf(selectedMeasurementTime)
-        builder.setSingleChoiceItems(
-            measurementTimeOptions.map { it.name }.toTypedArray(),
-            selectedIndex
-        ) { _, which ->
-            selectedMeasurementTime = measurementTimeOptions[which]
+        val selectedIndex = getMeasurementTimeIndex(selectedMeasurementTime)
+        builder.setSingleChoiceItems(measurementTimeOptions, selectedIndex) { _, which ->
+            selectedMeasurementTime = getMeasurementTimeByIndex(which)
         }
 
         builder.setPositiveButton("OK") { _, _ ->
@@ -40,4 +38,12 @@ class MeasurementTimeDialogFragment : DialogFragment() {
         onMeasurementTimeSelectedListener = listener
     }
 
+    private fun getMeasurementTimeIndex(measurementTime: MeasurementTime?): Int {
+        val measurementTimeOptions = MeasurementTime.values()
+        return measurementTimeOptions.indexOfFirst { it == measurementTime }
+    }
+
+    private fun getMeasurementTimeByIndex(index: Int): MeasurementTime {
+        return MeasurementTime.values()[index]
+    }
 }

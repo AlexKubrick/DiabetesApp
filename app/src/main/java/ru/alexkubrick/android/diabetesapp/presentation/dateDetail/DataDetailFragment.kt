@@ -122,7 +122,8 @@ class DataDetailFragment : Fragment() {
             timePicker.setText(formattedTime.format(sugarData.date.time))
 
             measuredPicker.transformIntoMeasurementPicker()
-            measuredPicker.setText(sugarData.measurementTime.toString())
+            val measurementTime = resources.getStringArray(R.array.measurementTime)
+            measuredPicker.setText(measurementTime[sugarData.measurementTime])
 
             binding.btnDelete.setOnClickListener {
                 viewLifecycleOwner.lifecycleScope.launch {
@@ -138,10 +139,14 @@ class DataDetailFragment : Fragment() {
             dataDetailViewModel.updateData { oldData ->
                 var sugarLevel = 0.0F
                 val description = binding.description.text.toString()
-                val measurementTime = binding.measuredPicker.tag as MeasurementTime
+                val measurementTime = if (binding.measuredPicker.tag is MeasurementTime) {
+                    binding.measuredPicker.tag as MeasurementTime
+                } else {
+                    MeasurementTime.OTHER
+                }
                 try {
                     sugarLevel = binding.sugarLevel.text.toString().toFloat()
-                } catch (e: Exception) {
+                } catch (_: Exception) {
 
                 }
                 oldData.copy(
@@ -212,7 +217,7 @@ class DataDetailFragment : Fragment() {
             val dialog = MeasurementTimeDialogFragment()
             dialog.setOnMeasurementTimeSelectedListener { selectedTime ->
                 tag = selectedTime
-               setText(selectedTime.name)
+                setText(resources.getStringArray(R.array.measurementTime)[selectedTime.ordinal])
             }
             dialog.show(parentFragmentManager, "MeasurementTimeDialog")
         }

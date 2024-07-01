@@ -18,16 +18,27 @@
         tools:text="01.06.2024 16:35" />
 
     <TextView
+        android:id="@+id/tMeasurementTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        app:layout_constraintBottom_toTopOf="@id/tDescription"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tDate"
+        tools:text="Before lunch" />
+
+    <TextView
         android:id="@+id/tDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginBottom="16dp"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tDate"
-        tools:text="Before breakfast" />
+        app:layout_constraintTop_toBottomOf="@id/tMeasurementTime"
+        tools:text="Eat egg and strawberries" />
 
     <TextView
         android:id="@+id/tSugarLevel"

@@ -26,3 +26,4 @@ enum class MeasurementTime {
     AFTER_DINNER,
     OTHER
 }
+
