@@ -1,7 +1,6 @@
 package ru.alexkubrick.android.diabetesapp.presentation.dateDetail
 
-import android.app.DatePickerDialog
-import android.content.Context
+
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -21,7 +20,6 @@ import ru.alexkubrick.android.diabetesapp.presentation.main.adapter.SugarData
 import ru.alexkubrick.android.diabetesapp.databinding.FragmentDataDetailBinding
 import ru.alexkubrick.android.diabetesapp.presentation.main.adapter.MeasurementTime
 import java.lang.Exception
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -63,8 +61,8 @@ class DataDetailFragment : Fragment() {
             }
         }
 
-        setFragmentResultListener(DatePickerFragment.REQUEST_KEY_DATE) { _, bundle ->
-            val newDate = bundle.getSerializable(DatePickerFragment.BUNDLE_KEY_DATE) as Date
+        setFragmentResultListener(DatePickerDialog.REQUEST_KEY_DATE) { _, bundle ->
+            val newDate = bundle.getSerializable(DatePickerDialog.BUNDLE_KEY_DATE) as Date
 
             dataDetailViewModel.updateData {
                 //bug with date and time
@@ -73,13 +71,13 @@ class DataDetailFragment : Fragment() {
             }
         }
 
-        setFragmentResultListener(TimePickerFragment.REQUEST_KEY_TIME) { _, bundle ->
-            val newDate = bundle.getSerializable(TimePickerFragment.BUNDLE_KEY_TIME) as Date
+        setFragmentResultListener(TimePickerDialog.REQUEST_KEY_TIME) { _, bundle ->
+            val newDate = bundle.getSerializable(TimePickerDialog.BUNDLE_KEY_TIME) as Date
 
             dataDetailViewModel.updateData {
                 //bug with date and time
                 //it.date.time
-                it.copy(date = newDate)
+                it.copy(time = newDate.time)
             }
         }
 
@@ -119,7 +117,7 @@ class DataDetailFragment : Fragment() {
             datePicker.setText(formattedDate.format(sugarData.date).toString())
 
             timePicker.transformIntoTimePicker()
-            timePicker.setText(formattedTime.format(sugarData.date.time))
+            timePicker.setText(formattedTime.format(sugarData.time).toString())
 
             measuredPicker.transformIntoMeasurementPicker()
             val measurementTime = resources.getStringArray(R.array.measurementTime)
@@ -191,8 +189,8 @@ class DataDetailFragment : Fragment() {
         isFocusable = false
 
         setOnClickListener {
-            val datePickerFragment = DatePickerFragment()
-            datePickerFragment.show(parentFragmentManager, null)
+            val datePickerDialog = DatePickerDialog()
+            datePickerDialog.show(parentFragmentManager, null)
 
         }
     }
@@ -203,7 +201,7 @@ class DataDetailFragment : Fragment() {
         isFocusable = false
 
         setOnClickListener {
-            val timePickerFragment = TimePickerFragment()
+            val timePickerFragment = TimePickerDialog()
             timePickerFragment.show(parentFragmentManager, null)
         }
     }

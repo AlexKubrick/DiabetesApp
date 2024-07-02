@@ -9,7 +9,7 @@ import androidx.fragment.app.setFragmentResult
 import java.util.Calendar
 import java.util.GregorianCalendar
 
-class DatePickerFragment: DialogFragment() {
+class DatePickerDialog: DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         val dateListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->

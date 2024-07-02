@@ -10,6 +10,7 @@ data class SugarData(
     @PrimaryKey val id: UUID,
     val sugarLevel: Float,
     val date: Date,
+    val time: Long,
     val desc: String,
     val measurementTime: Int
 )

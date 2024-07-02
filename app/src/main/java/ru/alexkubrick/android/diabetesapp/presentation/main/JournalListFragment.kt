@@ -74,6 +74,7 @@ class JournalListFragment: Fragment() {
             id = UUID.randomUUID(),
             sugarLevel = 0.0F,
             date = Date(),
+            time = Date().time,
             desc = "",
             measurementTime = MeasurementTime.OTHER.ordinal
         )

@@ -11,7 +11,7 @@ import androidx.fragment.app.setFragmentResult
 import java.util.Calendar
 import java.util.GregorianCalendar
 
-class TimePickerFragment : DialogFragment() {
+class TimePickerDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val calendar = Calendar.getInstance()

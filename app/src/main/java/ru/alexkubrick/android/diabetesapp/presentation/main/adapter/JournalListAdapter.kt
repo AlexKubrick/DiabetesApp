@@ -33,7 +33,7 @@ class JournalListAdapter(
             val defaultLocale = Locale.getDefault()
             val dateFormatter = SimpleDateFormat("dd MMMM yyyy", defaultLocale)
             val timeFormatter = SimpleDateFormat("HH:mm", defaultLocale)
-            binding.tDate.text = dateFormatter.format(sugarData.date).toString() + " " + timeFormatter.format(sugarData.date.time).toString()
+            binding.tDate.text = dateFormatter.format(sugarData.date).toString() + " " + timeFormatter.format(sugarData.time).toString()
             binding.tDescription.text = sugarData.desc
             val measurementTime = getMeasurementTimeFromOrdinal(sugarData.measurementTime)
             binding.tMeasurementTime.text = getMeasurementTimeString(measurementTime, binding.root.context)
