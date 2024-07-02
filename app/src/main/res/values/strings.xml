@@ -18,4 +18,5 @@
     <string name="date_and_time">Date and Time</string>
     <string name="statistics">Statistics</string>
     <string name="date_time_format">%1$s %2$s</string>
+    <string name="help">Help</string>
 </resources>

@@ -13,6 +13,7 @@ import com.google.android.material.navigation.NavigationView
 import ru.alexkubrick.android.diabetesapp.presentation.dateDetail.DataDetailFragment
 import ru.alexkubrick.android.diabetesapp.R
 import ru.alexkubrick.android.diabetesapp.databinding.ActivityMainBinding
+import ru.alexkubrick.android.diabetesapp.presentation.drawer.HelpActivity
 import ru.alexkubrick.android.diabetesapp.presentation.drawer.SettingsActivity
 import ru.alexkubrick.android.diabetesapp.presentation.drawer.StatisticsActivity
 
@@ -65,6 +66,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.navStatistics -> {
                 val intent = Intent(this, StatisticsActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.navHelp -> {
+                val intent = Intent(this, HelpActivity::class.java)
                 startActivity(intent)
             }
         }

@@ -32,6 +32,11 @@
             android:label="@string/statistics"
             android:theme="@style/Theme.DiabetesApp">
         </activity>
+        <activity
+            android:name=".presentation.drawer.HelpActivity"
+            android:label="@string/help"
+            android:theme="@style/Theme.DiabetesApp">
+        </activity>
     </application>
 
 </manifest>
