@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <application
         android:name=".DiabetesAppApplication"
         android:allowBackup="true"
@@ -25,18 +26,21 @@
         <activity
             android:name=".presentation.drawer.SettingsActivity"
             android:label="@string/settings"
-            android:theme="@style/Theme.DiabetesApp">
-        </activity>
+            android:theme="@style/Theme.DiabetesApp" />
         <activity
             android:name=".presentation.drawer.StatisticsActivity"
             android:label="@string/statistics"
-            android:theme="@style/Theme.DiabetesApp">
-        </activity>
+            android:theme="@style/Theme.DiabetesApp" />
         <activity
             android:name=".presentation.drawer.HelpActivity"
             android:label="@string/help"
-            android:theme="@style/Theme.DiabetesApp">
-        </activity>
+            android:theme="@style/Theme.DiabetesApp" />
+        <activity
+            android:name=".presentation.drawer.alarm.AlarmActivity"
+            android:label="Alarm"
+            android:theme="@style/Theme.DiabetesApp" />
+
+        <receiver android:name=".presentation.drawer.alarm.AlarmReceiver" />
     </application>
 
 </manifest>

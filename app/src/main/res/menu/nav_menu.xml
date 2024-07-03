@@ -24,6 +24,12 @@
             android:icon="@drawable/ic_help"
             android:title="@string/help">
         </item>
+
+        <item
+            android:id="@+id/navAlarm"
+            android:icon="@drawable/ic_alarm"
+            android:title="@string/alarm">
+            </item>
         </group>
 
 </menu>

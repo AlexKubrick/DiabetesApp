@@ -16,6 +16,7 @@ import ru.alexkubrick.android.diabetesapp.databinding.ActivityMainBinding
 import ru.alexkubrick.android.diabetesapp.presentation.drawer.HelpActivity
 import ru.alexkubrick.android.diabetesapp.presentation.drawer.SettingsActivity
 import ru.alexkubrick.android.diabetesapp.presentation.drawer.StatisticsActivity
+import ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm.AlarmActivity
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -70,6 +71,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.navHelp -> {
                 val intent = Intent(this, HelpActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.navAlarm -> {
+                val intent = Intent(this, AlarmActivity::class.java)
                 startActivity(intent)
             }
         }
