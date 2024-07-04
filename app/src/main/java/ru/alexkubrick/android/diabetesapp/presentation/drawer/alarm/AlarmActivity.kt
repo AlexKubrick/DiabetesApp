@@ -38,7 +38,6 @@ class AlarmActivity: AppCompatActivity() {
 
             bSetAlarm.setOnClickListener {
                 checkAndRequestNotificationPermission()
-                setAlarm()
             }
             bCancelAlarm.setOnClickListener {
                 cancelAlarm()
@@ -60,8 +59,7 @@ class AlarmActivity: AppCompatActivity() {
             )
         } else {
             // Permission already granted, proceed with displaying the notification
-            val alarmReceiver = AlarmReceiver()
-            alarmReceiver.displayNotification(this, null)
+            setAlarm()
         }
     }
 
@@ -74,9 +72,6 @@ class AlarmActivity: AppCompatActivity() {
     }
 
     private fun setAlarm() {
-        if (calendar.timeInMillis <= System.currentTimeMillis()) {
-            calendar.add(Calendar.DATE, 1)
-        }
         alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, AlarmReceiver::class.java)
         pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
