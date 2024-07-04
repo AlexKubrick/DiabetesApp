@@ -13,52 +13,38 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tvSelectedTime"
+        <TimePicker
+            android:id="@+id/timePicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/bSelectTime"
-            app:layout_constraintStart_toStartOf="parent"
+            android:timePickerMode="spinner"
+            app:layout_constraintBottom_toTopOf="@id/bStartExact"
             app:layout_constraintEnd_toEndOf="parent"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
-            tools:text="8:45" />
-
-        <Button
-            android:id="@+id/bSelectTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tvSelectedTime"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/bSetAlarm"
-            android:text="@string/select_time"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/bSetAlarm"
-            android:layout_width="wrap_content"
+            android:id="@+id/bStartExact"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/bSelectTime"
-            app:layout_constraintStart_toStartOf="@+id/bSelectTime"
-            app:layout_constraintEnd_toEndOf="@+id/bSelectTime"
-            app:layout_constraintBottom_toTopOf="@id/bCancelAlarm"
-            android:text="@string/set_alarm"
-            />
+            android:text="Start exact"
+            app:layout_constraintBottom_toTopOf="@+id/bRepeatAlarm"
+            app:layout_constraintEnd_toEndOf="@id/timePicker"
+            app:layout_constraintStart_toStartOf="@id/timePicker"
+            app:layout_constraintTop_toBottomOf="@id/timePicker" />
 
         <Button
-            android:id="@+id/bCancelAlarm"
-            android:layout_width="wrap_content"
+            android:id="@+id/bRepeatAlarm"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/bSetAlarm"
-            app:layout_constraintStart_toStartOf="@id/bSetAlarm"
-            app:layout_constraintEnd_toEndOf="@id/bSetAlarm"
-            android:text="@string/cancel_alarm"
+            android:text="Repeat alarm"
             app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintEnd_toEndOf="@+id/bStartExact"
+            app:layout_constraintStart_toStartOf="@+id/bStartExact"
+            app:layout_constraintTop_toBottomOf="@+id/bStartExact" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
