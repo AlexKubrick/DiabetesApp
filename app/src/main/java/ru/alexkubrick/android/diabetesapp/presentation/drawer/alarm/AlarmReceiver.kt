@@ -6,9 +6,15 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.media.AudioAttributes
+import android.media.MediaPlayer
+import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Build
+import android.provider.Settings
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat.getSystemService
 import ru.alexkubrick.android.diabetesapp.R
 import ru.alexkubrick.android.diabetesapp.presentation.main.MainActivity
 
@@ -23,7 +29,10 @@ class AlarmReceiver : BroadcastReceiver() {
     private fun sendNotification(context: Context) {
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val channelId = "alarm_channel"
-        val channelName = "Alarm Notifications"
+        val channelName = "DiabetesApp alarm"
+        val importance = NotificationManager.IMPORTANCE_HIGH
+        val descriptionText = "Check the app"
+        val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
 
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -31,7 +40,10 @@ class AlarmReceiver : BroadcastReceiver() {
         val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH)
+            val channel = NotificationChannel(channelId, channelName, importance).apply {
+                description = descriptionText
+                enableVibration(true)
+            }
             notificationManager.createNotificationChannel(channel)
         }
 
@@ -42,7 +54,25 @@ class AlarmReceiver : BroadcastReceiver() {
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
-
+            .setSound(soundUri)
+            .setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))
+            .setCategory(NotificationCompat.CATEGORY_REMINDER)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
         notificationManager.notify(0, builder.build())
+
+        playNotificationSound(context, soundUri)
+    }
+
+    private fun playNotificationSound(context: Context, soundUri: Uri) {
+        try {
+            val mediaPlayer = MediaPlayer.create(context, soundUri)
+            mediaPlayer.setOnCompletionListener { mp ->
+                mp.release()
+            }
+            mediaPlayer.start()
+            mediaPlayer.stop()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }
