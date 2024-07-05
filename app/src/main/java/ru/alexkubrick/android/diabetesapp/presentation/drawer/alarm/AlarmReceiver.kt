@@ -32,7 +32,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val channelName = "DiabetesApp alarm"
         val importance = NotificationManager.IMPORTANCE_HIGH
         val descriptionText = "Check the app"
-        val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+        val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -43,6 +43,10 @@ class AlarmReceiver : BroadcastReceiver() {
             val channel = NotificationChannel(channelId, channelName, importance).apply {
                 description = descriptionText
                 enableVibration(true)
+                setSound(alarmSound, AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .setUsage(AudioAttributes.USAGE_ALARM)
+                    .build())
             }
             notificationManager.createNotificationChannel(channel)
         }
@@ -54,25 +58,10 @@ class AlarmReceiver : BroadcastReceiver() {
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
-            .setSound(soundUri)
+            .setSound(alarmSound)
             .setVibrate(longArrayOf(1000, 1000, 1000, 1000, 1000))
             .setCategory(NotificationCompat.CATEGORY_REMINDER)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
         notificationManager.notify(0, builder.build())
-
-        playNotificationSound(context, soundUri)
-    }
-
-    private fun playNotificationSound(context: Context, soundUri: Uri) {
-        try {
-            val mediaPlayer = MediaPlayer.create(context, soundUri)
-            mediaPlayer.setOnCompletionListener { mp ->
-                mp.release()
-            }
-            mediaPlayer.start()
-            mediaPlayer.stop()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
     }
 }
