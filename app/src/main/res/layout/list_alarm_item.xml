@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tAlarmTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="10:00" />
+
+    <TextView
+        android:id="@+id/tAlarmDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/tAlarmMeasurementTime"
+        app:layout_constraintStart_toEndOf="@+id/tAlarmTime"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="01.06.2024" />
+
+    <TextView
+        android:id="@+id/tAlarmMeasurementTime"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        app:layout_constraintBottom_toBottomOf="@id/tAlarmDescription"
+        app:layout_constraintEnd_toStartOf="@+id/swEnableAlarm"
+        app:layout_constraintStart_toEndOf="@id/tAlarmTime"
+        app:layout_constraintTop_toBottomOf="@+id/tAlarmDate"
+        tools:text="Before lunch" />
+
+    <TextView
+        android:id="@+id/tAlarmDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/bAlarmDelete"
+        app:layout_constraintEnd_toEndOf="@+id/swEnableAlarm"
+        app:layout_constraintStart_toEndOf="@id/tAlarmTime"
+        app:layout_constraintTop_toBottomOf="@id/tAlarmMeasurementTime"
+        tools:text="Eat egg and strawberries" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/swEnableAlarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintBottom_toBottomOf="@id/tAlarmMeasurementTime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tAlarmMeasurementTime"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/bAlarmDelete"
+        android:backgroundTint="@color/red"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/delete"
+        app:layout_constraintBottom_toBottomOf="@+id/bAlarmRepeat"
+        app:layout_constraintEnd_toStartOf="@+id/bAlarmRepeat"
+        app:layout_constraintStart_toEndOf="@+id/tAlarmTime"
+        app:layout_constraintTop_toBottomOf="@id/tAlarmDescription" />
+
+    <Button
+        android:id="@+id/bAlarmRepeat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/repeat"
+        app:layout_constraintBottom_toBottomOf="@id/bAlarmDelete"
+        app:layout_constraintStart_toEndOf="@id/bAlarmDelete"
+        app:layout_constraintTop_toTopOf="@id/bAlarmDelete"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
