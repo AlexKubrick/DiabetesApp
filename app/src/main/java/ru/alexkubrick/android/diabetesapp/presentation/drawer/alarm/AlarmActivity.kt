@@ -78,17 +78,15 @@ class AlarmActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
-        binding.fragmentContainer.isVisible = false
+        onBackPressedDispatcher.onBackPressed()
     }
 
     private fun openAlarmDetailFragment() {
-        val alarmDetailFragment = AlarmDetailFragment()
+        val alarmDetailFragment = AlarmDetailFragment.getInstance(dataId)
         supportFragmentManager.beginTransaction()
             .add(R.id.fragmentContainer, alarmDetailFragment, "alarmDetailFragment")
             .addToBackStack(null)
             .commit()
-        binding.fragmentContainer.isVisible = true
     }
 }
 

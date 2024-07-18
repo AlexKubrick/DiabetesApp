@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/alarmContainer"
@@ -16,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TimePicker
-            android:id="@+id/timePicker"
+            android:id="@+id/timePickerFeature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:timePickerMode="spinner"
@@ -58,7 +59,7 @@
             android:hint="Pick measured"
             app:endIconDrawable="@drawable/ic_arrow_down"
             app:endIconMode="custom"
-            app:layout_constraintBottom_toTopOf="@id/timeTitle"
+            app:layout_constraintBottom_toTopOf="@id/dateTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/measureTitle">
@@ -73,7 +74,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/timeTitle"
+            android:id="@+id/dateTitle"
             style="@style/TextAppearance.MaterialComponents.Headline5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -95,7 +96,7 @@
             app:layout_constraintBottom_toTopOf="@+id/descriptionLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/timeTitle">
+            app:layout_constraintTop_toBottomOf="@id/dateTitle">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/datePicker"

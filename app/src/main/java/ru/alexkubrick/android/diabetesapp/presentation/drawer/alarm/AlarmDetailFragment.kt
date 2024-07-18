@@ -1,27 +1,40 @@
 package ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm
 
-import android.app.AlarmManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.getSystemService
+import android.widget.EditText
 import androidx.fragment.app.Fragment
-import ru.alexkubrick.android.diabetesapp.databinding.ActivityAlarmListBinding
+import androidx.fragment.app.setFragmentResultListener
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.launch
+import ru.alexkubrick.android.diabetesapp.R
 import ru.alexkubrick.android.diabetesapp.databinding.FragmentAlarmDetailBinding
-import ru.alexkubrick.android.diabetesapp.databinding.FragmentDataDetailBinding
-import ru.alexkubrick.android.diabetesapp.presentation.dateDetail.DataDetailFragment
-import java.util.Calendar
+import ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm.data.AlarmData
+import ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm.model.AlarmViewModel
+import ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm.model.AlarmViewModelFactory
+import ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm.presentation.DateAlarmPickerDialog
+import ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm.presentation.MeasurementAlarmTimeDialogFragment
+import ru.alexkubrick.android.diabetesapp.presentation.main.adapter.MeasurementTime
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import java.util.UUID
 
 class AlarmDetailFragment : Fragment() {
     private var _binding: FragmentAlarmDetailBinding?  = null
+    private lateinit var dataId: UUID
 //    private lateinit var alarmManager: AlarmManager
 //    private lateinit var alarmIntent: PendingIntent
 //    private lateinit var calendar: Calendar
+
+    private val alarmViewModel: AlarmViewModel by viewModels {
+        AlarmViewModelFactory(dataId)
+    }
 
     private val binding
         get() = checkNotNull(_binding) {
@@ -34,7 +47,123 @@ class AlarmDetailFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentAlarmDetailBinding.inflate(layoutInflater, container, false)
-        return binding.root
+        arguments?.let { args ->
+            dataId = args.getSerializable("dataId") as UUID
+        }
+         return binding.root
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        updateAndSaveData()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                alarmViewModel.alarmData.collect { alarmData ->
+                    alarmData?.let { updateUi(it) }
+                }
+            }
+        }
+
+        binding.timePickerFeature.setOnTimeChangedListener { _, hourOfDay, minute ->
+            saveTime(hourOfDay, minute)
+        }
+
+        setFragmentResultListener(DateAlarmPickerDialog.REQUEST_KEY_DATE) { _, bundle ->
+            val newDate = bundle.getSerializable(DateAlarmPickerDialog.BUNDLE_KEY_DATE) as Date
+
+            alarmViewModel.updateData {
+                it.copy(date = newDate)
+            }
+        }
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private val defaultLocale = Locale.getDefault()
+    private val formattedDate = SimpleDateFormat("dd MMMM yyyy", defaultLocale)
+
+    private fun updateUi(alarmData: AlarmData) {
+        binding.apply {
+            timePickerFeature.setIs24HourView(true)
+            val timeInMinutes = alarmData.time.toInt()
+            val hour = timeInMinutes / 60
+            val minute = timeInMinutes % 60
+            timePickerFeature.hour = hour
+            timePickerFeature.minute = minute
+
+            measuredPicker.transformIntoMeasurementPicker()
+            val measurementTime = resources.getStringArray(R.array.measurementTime)
+            measuredPicker.setText(measurementTime[alarmData.measurementTime])
+
+            datePicker.transformIntoDatePicker()
+            datePicker.setText(formattedDate.format(alarmData.date).toString())
+
+            binding.btnDelete.setOnClickListener {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    alarmViewModel.deleteDataById(dataId)
+                }
+                activity?.onBackPressedDispatcher?.onBackPressed()
+            }
+        }
+    }
+
+    private fun updateAndSaveData() {
+        binding.btnApply.setOnClickListener {
+            alarmViewModel.updateData { oldData ->
+                val description = binding.description.text.toString()
+                val measurementTime = if (binding.measuredPicker.tag is MeasurementTime) {
+                    binding.measuredPicker.tag as MeasurementTime
+                } else {
+                    MeasurementTime.OTHER
+                }
+                oldData.copy(
+                    desc = description,
+                    measurementTime = measurementTime.ordinal
+                )
+            }
+            alarmViewModel.updateDataInRepository()
+            activity?.onBackPressedDispatcher?.onBackPressed()
+        }
+    }
+
+    private fun saveTime(hourOfDay: Int, minute: Int) {
+        val timeInMinutes = (hourOfDay * 60) + minute
+        alarmViewModel.updateData { oldData ->
+            oldData.copy(
+                time = timeInMinutes.toLong()
+            )
+        }
+        alarmViewModel.updateDataInRepository()
+    }
+    private fun EditText.transformIntoDatePicker() {
+        isFocusableInTouchMode = false
+        isClickable = true
+        isFocusable = false
+
+        setOnClickListener {
+            val datePickerDialog = DateAlarmPickerDialog()
+            datePickerDialog.show(parentFragmentManager, null)
+
+        }
+    }
+
+    private fun EditText.transformIntoMeasurementPicker() {
+        isFocusableInTouchMode = false
+        isClickable = true
+        isFocusable = false
+
+        setOnClickListener {
+            val dialog = MeasurementAlarmTimeDialogFragment()
+            dialog.setOnMeasurementTimeSelectedListener { selectedTime ->
+                tag = selectedTime
+                setText(resources.getStringArray(R.array.measurementTime)[selectedTime.ordinal])
+            }
+            dialog.show(parentFragmentManager, "MeasurementTimeDialog")
+        }
     }
 //        //binding.timePicker.setIs24HourView(true)
 //
@@ -66,4 +195,19 @@ class AlarmDetailFragment : Fragment() {
 ////            }
 ////        }
 //    }
+
+
+
+    companion object {
+        private const val ARG_DATA_ID = "dataId"
+
+        fun getInstance(dataId: UUID): AlarmDetailFragment {
+            val fragment = AlarmDetailFragment()
+            val arg = Bundle().apply {
+                putSerializable(ARG_DATA_ID, dataId)
+            }
+            fragment.arguments = arg
+            return fragment
+        }
+    }
 }
