@@ -1,11 +1,13 @@
 package ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm
 
+import android.app.Application
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,7 +17,6 @@ import ru.alexkubrick.android.diabetesapp.databinding.ActivityAlarmListBinding
 import ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm.adapter.AlarmListAdapter
 import ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm.data.AlarmData
 import ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm.model.AlarmViewModel
-import ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm.model.AlarmViewModelFactory
 import ru.alexkubrick.android.diabetesapp.presentation.main.State
 import ru.alexkubrick.android.diabetesapp.presentation.main.adapter.MeasurementTime
 import java.util.Date
@@ -25,17 +26,13 @@ class AlarmActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAlarmListBinding
     private lateinit var dataId: UUID
 
-    private val viewModel: AlarmViewModel by viewModels {
-        AlarmViewModelFactory(dataId)
-    }
+    private val viewModel: AlarmViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAlarmListBinding.inflate(layoutInflater)
         binding.alarmRecyclerView.layoutManager = LinearLayoutManager(this)
         setContentView(binding.root)
-
-        dataId = UUID.randomUUID()
 
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -62,8 +59,9 @@ class AlarmActivity : AppCompatActivity() {
     }
 
     private fun showNewAlarmData() {
+        dataId = UUID.randomUUID()
         val newData = AlarmData(
-            id = UUID.randomUUID(),
+            id = dataId,
             time = Date().time,
             date = Date(),
             desc = "",
@@ -84,7 +82,7 @@ class AlarmActivity : AppCompatActivity() {
     private fun openAlarmDetailFragment() {
         val alarmDetailFragment = AlarmDetailFragment.getInstance(dataId)
         supportFragmentManager.beginTransaction()
-            .add(R.id.fragmentContainer, alarmDetailFragment, "alarmDetailFragment")
+            .replace(R.id.fragmentContainer, alarmDetailFragment, "alarmDetailFragment + ${UUID.randomUUID()}")
             .addToBackStack(null)
             .commit()
     }

@@ -1,14 +1,17 @@
 package ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm
 
+import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
@@ -16,10 +19,9 @@ import ru.alexkubrick.android.diabetesapp.R
 import ru.alexkubrick.android.diabetesapp.databinding.FragmentAlarmDetailBinding
 import ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm.data.AlarmData
 import ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm.model.AlarmViewModel
-import ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm.model.AlarmViewModelFactory
+import ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm.data.MeasurementTime
 import ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm.presentation.DateAlarmPickerDialog
 import ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm.presentation.MeasurementAlarmTimeDialogFragment
-import ru.alexkubrick.android.diabetesapp.presentation.main.adapter.MeasurementTime
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -28,13 +30,14 @@ import java.util.UUID
 class AlarmDetailFragment : Fragment() {
     private var _binding: FragmentAlarmDetailBinding?  = null
     private lateinit var dataId: UUID
+    private lateinit var alarmData: AlarmData
+    private var newDate: Date? = null
+
 //    private lateinit var alarmManager: AlarmManager
 //    private lateinit var alarmIntent: PendingIntent
 //    private lateinit var calendar: Calendar
 
-    private val alarmViewModel: AlarmViewModel by viewModels {
-        AlarmViewModelFactory(dataId)
-    }
+    private val alarmViewModel: AlarmViewModel by activityViewModels()
 
     private val binding
         get() = checkNotNull(_binding) {
@@ -48,32 +51,26 @@ class AlarmDetailFragment : Fragment() {
     ): View {
         _binding = FragmentAlarmDetailBinding.inflate(layoutInflater, container, false)
         arguments?.let { args ->
-            dataId = args.getSerializable("dataId") as UUID
+            dataId = args.getSerializable(ARG_DATA_ID) as UUID
         }
-         return binding.root
+        viewLifecycleOwner.lifecycleScope.launch {
+            alarmData = alarmViewModel.getData(dataId)
+        }
+        return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         updateAndSaveData()
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                alarmViewModel.alarmData.collect { alarmData ->
-                    alarmData?.let { updateUi(it) }
-                }
-            }
-        }
-
-        binding.timePickerFeature.setOnTimeChangedListener { _, hourOfDay, minute ->
-            saveTime(hourOfDay, minute)
+            updateUi(alarmViewModel.getData(dataId))
         }
 
         setFragmentResultListener(DateAlarmPickerDialog.REQUEST_KEY_DATE) { _, bundle ->
             val newDate = bundle.getSerializable(DateAlarmPickerDialog.BUNDLE_KEY_DATE) as Date
-
-            alarmViewModel.updateData {
-                it.copy(date = newDate)
-            }
+            this.newDate = newDate
+            binding.datePicker.setText(formattedDate.format(newDate).toString())
         }
     }
 
@@ -113,32 +110,27 @@ class AlarmDetailFragment : Fragment() {
 
     private fun updateAndSaveData() {
         binding.btnApply.setOnClickListener {
-            alarmViewModel.updateData { oldData ->
-                val description = binding.description.text.toString()
-                val measurementTime = if (binding.measuredPicker.tag is MeasurementTime) {
-                    binding.measuredPicker.tag as MeasurementTime
-                } else {
-                    MeasurementTime.OTHER
-                }
-                oldData.copy(
+            val description = binding.description.text.toString()
+            val measurementTime = if (binding.measuredPicker.tag is MeasurementTime) {
+                binding.measuredPicker.tag as MeasurementTime
+            } else {
+                MeasurementTime.OTHER
+            }
+            val newDate = newDate ?: alarmData.date
+
+            val timeInMinutes = (binding.timePickerFeature.hour * 60) + binding.timePickerFeature.minute
+            alarmViewModel.updateDataByInstanceInRepository(
+                alarmData.copy(
+                    time = timeInMinutes.toLong(),
+                    date = newDate,
                     desc = description,
                     measurementTime = measurementTime.ordinal
                 )
-            }
-            alarmViewModel.updateDataInRepository()
+            )
             activity?.onBackPressedDispatcher?.onBackPressed()
         }
     }
 
-    private fun saveTime(hourOfDay: Int, minute: Int) {
-        val timeInMinutes = (hourOfDay * 60) + minute
-        alarmViewModel.updateData { oldData ->
-            oldData.copy(
-                time = timeInMinutes.toLong()
-            )
-        }
-        alarmViewModel.updateDataInRepository()
-    }
     private fun EditText.transformIntoDatePicker() {
         isFocusableInTouchMode = false
         isClickable = true
@@ -147,7 +139,6 @@ class AlarmDetailFragment : Fragment() {
         setOnClickListener {
             val datePickerDialog = DateAlarmPickerDialog()
             datePickerDialog.show(parentFragmentManager, null)
-
         }
     }
 
@@ -162,7 +153,7 @@ class AlarmDetailFragment : Fragment() {
                 tag = selectedTime
                 setText(resources.getStringArray(R.array.measurementTime)[selectedTime.ordinal])
             }
-            dialog.show(parentFragmentManager, "MeasurementTimeDialog")
+            dialog.show(parentFragmentManager, "MeasurementAlarmTimeDialog")
         }
     }
 //        //binding.timePicker.setIs24HourView(true)

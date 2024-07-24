@@ -5,8 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import ru.alexkubrick.android.diabetesapp.R
-import ru.alexkubrick.android.diabetesapp.presentation.main.adapter.MeasurementTime
-
+import ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm.data.MeasurementTime
 class MeasurementAlarmTimeDialogFragment : DialogFragment() {
     var selectedMeasurementTime: MeasurementTime? = null
     private var onMeasurementTimeSelectedListener: ((MeasurementTime) -> Unit)? = null

@@ -19,8 +19,7 @@ class AlarmListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlarmHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = AlarmHolder(ListItemAlarmBinding.inflate(inflater, parent, false))
-        return view
+        return AlarmHolder(ListItemAlarmBinding.inflate(inflater, parent, false))
     }
 
     override fun onBindViewHolder(holder: AlarmHolder, position: Int) {
