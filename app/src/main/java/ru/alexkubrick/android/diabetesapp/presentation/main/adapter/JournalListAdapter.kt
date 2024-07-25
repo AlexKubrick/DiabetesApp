@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.alexkubrick.android.diabetesapp.R
 import ru.alexkubrick.android.diabetesapp.databinding.ListItemJournalBinding
+import ru.alexkubrick.android.diabetesapp.presentation.utils.SugarUtils
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.UUID
@@ -35,7 +36,7 @@ class JournalListAdapter(
             val timeFormatter = SimpleDateFormat("HH:mm", defaultLocale)
             binding.tDate.text = dateFormatter.format(sugarData.date).toString() + " " + timeFormatter.format(sugarData.time).toString()
             binding.tDescription.text = sugarData.desc
-            val measurementTime = getMeasurementTimeFromOrdinal(sugarData.measurementTime)
+            val measurementTime = SugarUtils.getMeasurementTimeFromOrdinal(sugarData.measurementTime)
             binding.tMeasurementTime.text = getMeasurementTimeString(measurementTime, binding.root.context)
 
             binding.root.setOnClickListener {
@@ -47,26 +48,8 @@ class JournalListAdapter(
             val measurementTimeArray = context.resources.getStringArray(R.array.measurementTime)
             return measurementTimeArray[measurementTime.ordinal]
         }
-
-        private fun getMeasurementTimeFromOrdinal(ordinal: Int): MeasurementTime {
-            return when (ordinal) {
-                0 -> MeasurementTime.BEFORE_BREAKFAST
-                1 -> MeasurementTime.BREAKFAST
-                2 -> MeasurementTime.AFTER_BREAKFAST
-                3 -> MeasurementTime.BEFORE_LUNCH
-                4 -> MeasurementTime.LUNCH
-                5 -> MeasurementTime.AFTER_LUNCH
-                6 -> MeasurementTime.BEFORE_DINNER
-                7 -> MeasurementTime.DINNER
-                8 -> MeasurementTime.AFTER_DINNER
-                9 -> MeasurementTime.OTHER
-                else -> MeasurementTime.OTHER
-            }
-        }
-
     }
 
     override fun getItemCount() = dataList.size
-
 }
 

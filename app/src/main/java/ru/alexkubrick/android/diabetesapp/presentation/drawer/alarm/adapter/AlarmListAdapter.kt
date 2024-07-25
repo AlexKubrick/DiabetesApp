@@ -8,6 +8,7 @@ import ru.alexkubrick.android.diabetesapp.R
 import ru.alexkubrick.android.diabetesapp.databinding.ListItemAlarmBinding
 import ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm.data.AlarmData
 import ru.alexkubrick.android.diabetesapp.presentation.main.adapter.MeasurementTime
+import ru.alexkubrick.android.diabetesapp.presentation.utils.SugarUtils
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.UUID
@@ -32,11 +33,13 @@ class AlarmListAdapter(
         fun bind(alarmData: AlarmData, onDataClicked: (alarmId: UUID) -> Unit) {
             val defaultLocale = Locale.getDefault()
             val dateFormatter = SimpleDateFormat("dd MMMM yyyy", defaultLocale)
-            val timeFormatter = SimpleDateFormat("HH:mm", defaultLocale)
-            binding.tAlarmTime.text = timeFormatter.format(alarmData.time).toString()
+            val hours = alarmData.time / (1000 * 60 * 60)
+            val minutes = (alarmData.time % (1000 * 60 * 60)) / (1000 * 60)
+            val formattedTime = String.format("%02d:%02d", hours, minutes)
+            binding.tAlarmTime.text = formattedTime
             binding.tAlarmDate.text = dateFormatter.format(alarmData.date).toString()
             binding.tAlarmDescription.text = alarmData.desc
-            val measurementTime = getMeasurementTimeFromOrdinal(alarmData.measurementTime)
+            val measurementTime = SugarUtils.getMeasurementTimeFromOrdinal(alarmData.measurementTime)
             binding.tAlarmMeasurementTime.text =
                 getMeasurementTimeString(measurementTime, binding.root.context)
 
@@ -52,23 +55,6 @@ class AlarmListAdapter(
             val measurementTimeArray = context.resources.getStringArray(R.array.measurementTime)
             return measurementTimeArray[measurementTime.ordinal]
         }
-
-        private fun getMeasurementTimeFromOrdinal(ordinal: Int): MeasurementTime {
-            return when (ordinal) {
-                0 -> MeasurementTime.BEFORE_BREAKFAST
-                1 -> MeasurementTime.BREAKFAST
-                2 -> MeasurementTime.AFTER_BREAKFAST
-                3 -> MeasurementTime.BEFORE_LUNCH
-                4 -> MeasurementTime.LUNCH
-                5 -> MeasurementTime.AFTER_LUNCH
-                6 -> MeasurementTime.BEFORE_DINNER
-                7 -> MeasurementTime.DINNER
-                8 -> MeasurementTime.AFTER_DINNER
-                9 -> MeasurementTime.OTHER
-                else -> MeasurementTime.OTHER
-            }
-        }
-
     }
 
     override fun getItemCount() = dataList.size

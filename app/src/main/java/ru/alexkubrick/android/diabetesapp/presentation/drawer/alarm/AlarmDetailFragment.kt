@@ -1,6 +1,5 @@
 package ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm
 
-import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,17 +8,13 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import ru.alexkubrick.android.diabetesapp.R
 import ru.alexkubrick.android.diabetesapp.databinding.FragmentAlarmDetailBinding
 import ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm.data.AlarmData
-import ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm.model.AlarmViewModel
 import ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm.data.MeasurementTime
+import ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm.model.AlarmViewModel
 import ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm.presentation.DateAlarmPickerDialog
 import ru.alexkubrick.android.diabetesapp.presentation.drawer.alarm.presentation.MeasurementAlarmTimeDialogFragment
 import java.text.SimpleDateFormat
@@ -118,10 +113,10 @@ class AlarmDetailFragment : Fragment() {
             }
             val newDate = newDate ?: alarmData.date
 
-            val timeInMinutes = (binding.timePickerFeature.hour * 60) + binding.timePickerFeature.minute
+            val timeInMilliseconds = ((binding.timePickerFeature.hour * 60) + binding.timePickerFeature.minute) * 60_000
             alarmViewModel.updateDataByInstanceInRepository(
                 alarmData.copy(
-                    time = timeInMinutes.toLong(),
+                    time = timeInMilliseconds.toLong(),
                     date = newDate,
                     desc = description,
                     measurementTime = measurementTime.ordinal
